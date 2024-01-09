@@ -21,23 +21,23 @@ public class ElevatorController {
 
     @PostMapping("/move")
     public ResponseEntity<String> moveElevator() {
-        CompletableFuture<String> apiMessage = elevatorService.moveElevator();
-        if (!apiMessage.isCompletedExceptionally()) {
-            return ResponseEntity.badRequest().body(apiMessage.join());
+        CompletableFuture<String> responseMoveElevator = elevatorService.moveElevator();
+        if (!responseMoveElevator.isCompletedExceptionally()) {
+            return ResponseEntity.ok(responseMoveElevator.join());
         }
-        return ResponseEntity.ok(apiMessage.join());
+        return ResponseEntity.badRequest().body(responseMoveElevator.join());
     }
 
     @PostMapping("/request")
     public ResponseEntity<String> callElevator(@RequestParam int floorNumber, @RequestParam boolean priority) {
-        String apiMessage = elevatorService.requestElevator(floorNumber, priority);
-        if (!apiMessage.isEmpty()) {
-            return ResponseEntity.noContent().build();
+        String responseRequestElevator = elevatorService.requestElevator(floorNumber, priority);
+        if (!responseRequestElevator.isEmpty()) {
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(apiMessage);
+        return ResponseEntity.ok(responseRequestElevator);
     }
 
-    @GetMapping("/state")
+    @GetMapping(value = "/state", produces = "application/json")
     public ResponseEntity<ElevatorState> getElevatorState() {
         return ResponseEntity.ok(elevatorService.getElevatorState());
     }
