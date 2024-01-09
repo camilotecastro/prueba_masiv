@@ -138,7 +138,7 @@ public class ElevatorServiceImpl implements ElevatorService {
         Floor nextFloor = null;
 
         for (Floor floor : floors) {
-            if ((isUpward && floor.getNumber() > currentFloor) || (isDownward && floor.getNumber() < currentFloor)) {
+            if ((isUpward && floor.getNumber() >= currentFloor) || (isDownward && floor.getNumber() <= currentFloor)) {
                 nextFloor = floor;
                 break;
             }
@@ -151,8 +151,7 @@ public class ElevatorServiceImpl implements ElevatorService {
      * If the current direction is "UP," it changes it to "DOWN," and vice versa.
      */
     private void changeDirection() {
-        movementDirection = (movementDirection.equals(UP_DIRECTION))
-                ? DOWN_DIRECTION : UP_DIRECTION;
+        movementDirection = (movementDirection.equals(UP_DIRECTION)) ? DOWN_DIRECTION : UP_DIRECTION;
     }
 
 }
