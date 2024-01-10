@@ -136,11 +136,14 @@ public class ElevatorServiceImpl implements ElevatorService {
         boolean isDownward = movementDirection.equals(DOWN_DIRECTION);
 
         Floor nextFloor = null;
+        int minDistance = Integer.MAX_VALUE;
 
         for (Floor floor : floors) {
-            if ((isUpward && floor.getNumber() >= currentFloor) || (isDownward && floor.getNumber() <= currentFloor)) {
+            int distance = Math.abs(floor.getNumber() - currentFloor);
+            if ((isUpward && floor.getNumber() > currentFloor && distance < minDistance)
+                    || (isDownward && floor.getNumber() < currentFloor && distance < minDistance)) {
                 nextFloor = floor;
-                break;
+                minDistance = distance;
             }
         }
         return nextFloor;
